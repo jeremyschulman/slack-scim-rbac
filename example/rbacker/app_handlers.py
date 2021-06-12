@@ -7,7 +7,7 @@ from slack_bolt.async_app import (
 )
 from slack_bolt.async_app import AsyncSay as Say
 
-from slack_rbac import aio_scim_groups, assert_rbac_members
+from slack_rbac import aio_scim_groups, assert_rbac_membership
 
 from .app_data import app
 
@@ -34,7 +34,7 @@ async def app_show_port(context: BoltContext, say: Say):
 
 @app.message(re.compile("bounce port", re.I), middleware=[aio_scim_groups])
 async def app_bounce_port(request: BoltRequest, context: BoltContext, say: Say):
-    assert_rbac_members(request, member_set={"ChatOps-bobo"})
+    assert_rbac_membership(request, groups={"ChatOps-bobo"})
 
     await say(f"bouncing port for you <@{context.user_id}> ... standby")
 

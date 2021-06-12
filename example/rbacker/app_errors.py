@@ -37,5 +37,5 @@ async def on_app_rbac_err(error: SlackRBACPermissionError, request: Request):
     say = context["say"]
     await say(
         f"Oh no <@{context.user_id}>, you are not allowed to run that command!\n"
-        f'You need to be on one of these groups: {", ".join(error.members)}'
+        f'You need to be on one of these groups: {", ".join(error.groups)}'
     )

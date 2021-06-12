@@ -2,15 +2,15 @@ from slack_bolt.async_app import AsyncBoltRequest
 
 
 class SlackRBACPermissionError(Exception):
-    def __init__(self, members):
+    def __init__(self, groups):
         super(SlackRBACPermissionError, self).__init__()
-        self.members = members
+        self.groups = groups
 
 
-def assert_rbac_members(request: AsyncBoltRequest, member_set):
-    if not isinstance(member_set, set):
-        member_set = set(member_set)
+def assert_rbac_membership(request: AsyncBoltRequest, groups):
+    if not isinstance(groups, set):
+        groups = set(groups)
 
     context = request.context
-    if not (context["scim_groups"] & member_set):
-        raise SlackRBACPermissionError(member_set)
+    if not (context["scim_groups"] & groups):
+        raise SlackRBACPermissionError(groups)

@@ -18,8 +18,8 @@ _scim_token = os.environ["SLACK_SCIM_TOKEN"]
 async def aio_scim_groups(context: AsyncBoltContext, next):  # noqa
     """
     Obtain the set of SCIM group names associated with the given user in
-    context.  These group names are then stored in the context using the key
-    'scim_groups'.
+    context.  This set of group names (group.display) is stored in the
+    context['scim_groups'].
 
     Parameters
     ----------
