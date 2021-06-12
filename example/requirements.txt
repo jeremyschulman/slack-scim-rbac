@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+aiohttp
+slack_bolt
+slack-rbac
