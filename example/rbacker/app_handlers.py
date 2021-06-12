@@ -1,10 +1,13 @@
 import re
 import json
 
-# from slack_bolt.request import BoltRequest
-from slack_bolt.context import BoltContext
+from slack_bolt.async_app import (
+    AsyncBoltContext as BoltContext,
+    AsyncBoltRequest as BoltRequest,
+)
 from slack_bolt.async_app import AsyncSay as Say
 
+from slack_rbac import aio_scim_groups, assert_rbac_members
 
 from .app_data import app
 
@@ -22,6 +25,18 @@ async def app_mention(context: BoltContext, say: Say, event: dict):
 @app.message(re.compile("hi", re.I))
 async def app_say_ohai(context: BoltContext, say: Say):
     await say(f"Ohai <@{context.user_id}>")
+
+
+@app.message(re.compile("show port", re.I))
+async def app_show_port(context: BoltContext, say: Say):
+    await say(f"getting port status for you <@{context.user_id}> ... standby")
+
+
+@app.message(re.compile("bounce port", re.I), middleware=[aio_scim_groups])
+async def app_bounce_port(request: BoltRequest, context: BoltContext, say: Say):
+    assert_rbac_members(request, member_set={"ChatOps-bobo"})
+
+    await say(f"bouncing port for you <@{context.user_id}> ... standby")
 
 
 # -----------------------------------------------------------------------
