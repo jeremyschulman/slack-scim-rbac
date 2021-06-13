@@ -7,7 +7,7 @@ from slack_bolt.async_app import (
 )
 from slack_bolt.async_app import AsyncSay as Say
 
-from slack_rbac.middleware import AsyncSlackScimRBAC
+from slack_scim_rbac.middleware import AsyncSlackScimRBAC
 
 from .app_data import app
 

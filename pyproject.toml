@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Role Based Access Control for Slack-Bolt applications"
 license = "Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/jeremyschulman/slack-rbac"
+repository = "https://github.com/jeremyschulman/slack-scim-rbac"
 authors = ["Jeremy Schulman"]
 
 [tool.poetry.dependencies]
