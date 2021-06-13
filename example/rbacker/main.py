@@ -2,8 +2,8 @@
 # System Imports
 # -----------------------------------------------------------------------------
 
-import sys
 from os import environ
+import sys
 import logging
 from importlib import import_module
 
@@ -36,11 +36,9 @@ async def demo_startup():
     logging.basicConfig(level=logging.INFO)
 
     import_module("rbacker.app_handlers")
-    import_module("rbacker.app_errors")
 
     if missing := [envar for envar in ENV_VARS if not environ.get(envar)]:
         sys.exit(f"Missing required environment variables: {missing}")
 
     # start the websocket handler to consume messages from Slack
-
     await slack_websocket.start_async()
