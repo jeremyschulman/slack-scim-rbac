@@ -15,12 +15,19 @@ using the Slack SCIM API feature.  For example:
     As an IT administrator of Okta, I will create SCIM groups that will designate
     the specific RBAC User-Groups I want to use in Slack.
 
-This `slack-scim-rbac` repository provides a Slack-Bolt _middleware_ class. 
+This `slack-scim-rbac` repository provides a Slack-Bolt _middleware_ class.
 
 As a developer using the SCIM protocol, you must obtain a SCIM Token from your Slack
-administrator and export the environment variable `SLACK_SCIM_TOKEN`.  
+administrator and export the environment variable `SLACK_SCIM_TOKEN`.
+
+The following code snippet is take from the [example](example/rbacker/app_handlers.py).
+In this example the User that entered the "bounce port" message must be a member
+of the SCIM group "ChatOps-foo".  If they are not, then an error message is reported
+to the User.
 
 ```python
+from slack_scim_rbac.middleware import AsyncSlackScimRBAC
+
 @app.message(
     re.compile("bounce port", re.I),
     middleware=[AsyncSlackScimRBAC(groups={"ChatOps-foo"})],
