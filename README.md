@@ -20,7 +20,7 @@ This `slack-scim-rbac` repository provides a Slack-Bolt _middleware_ class.
 As a developer using the SCIM protocol, you must obtain a SCIM Token from your Slack
 administrator and export the environment variable `SLACK_SCIM_TOKEN`.
 
-The following code snippet is take from the [example](example/rbacker/app_handlers.py).
+The following code snippet is take from the [example](example/rbacker/app_listeners.py).
 In this example the User that entered the "bounce port" message must be a member
 of the SCIM group "ChatOps-foo".  If they are not, then an error message is reported
 to the User.
