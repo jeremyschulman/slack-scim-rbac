@@ -36,6 +36,55 @@ async def app_bounce_port(request: BoltRequest, context: BoltContext, say: Say):
     await say(f"bouncing port for you <@{context.user_id}> ... standby")
 ```
 
+# Customizing the Error Response
+
+As a developer you will want to customize the error response to the User.
+There are two ways to do this. The first way is to provide an `error_response`
+function to middleware addition.  For example this code will trigger a Modal
+when the User triggers the `/rbacker` command that contains the text "bounce
+port" when they are not part of the "ChatOps-nofuzz" SCIM group.
+
+```python
+async def is_bounce_port_command(command: dict):
+    return "bounce port" in command["text"]
+
+
+async def modal_no_you_cant(client: AsyncWebClient, body: dict, context: AsyncBoltContext):
+    msg = f"Nope! Sorry <@{context.user_id}> but you cannot do that!"
+
+    view = View(title="Permission Denied!", type="modal", close="Bummer")
+    view.blocks = [SectionBlock(text=MarkdownTextObject(text=msg))]
+    await client.views_open(trigger_id=body["trigger_id"], view=view)
+
+
+@app.command(
+    command="/rbacker",
+    matchers=[is_bounce_port_command],
+    middleware=[
+        AsyncSlackScimRBAC(
+            app_name=app.name,
+            groups={"ChatOps-nofuzz"},
+            error_response=modal_no_you_cant,
+        )
+    ],
+)
+async def slash_rbacker_bounce_port(ack: Ack, say: Say, context: Context):
+    await ack()
+    await say(
+        f"Already then, <@{context.user_id}>, let's get to bouncing that port for ya!"
+    )
+```
+
+The other approach is to sub-class the `AsyncSlackScimRBAC` class and
+overriding the `error_response` method.
+
+# Customizing the RBAC Validation Process
+
+By default the validate process checks the Slack User groups (name) membership
+in any of the required group names.  You can override this behavior (for
+example if you have a default "admin" group) by sub-classing
+`AsyncSlackScimRBAC` and overriding the `is_member` method.
+
 
 # Resources
 
