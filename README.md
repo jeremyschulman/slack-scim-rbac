@@ -39,5 +39,6 @@ async def app_bounce_port(request: BoltRequest, context: BoltContext, say: Say):
 
 # Resources
 
+* [Slack-Bolt for Python](https://slack.dev/bolt-python/tutorial/getting-started)
 * [Video: Getting Started with Python Slack-Bolt PyCon 2021](https://www.youtube.com/watch?v=Mlh8BD7xlgE)
 * [Article: What is SCIM?](https://www.okta.com/blog/2017/01/what-is-scim/)

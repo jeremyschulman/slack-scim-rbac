@@ -32,7 +32,6 @@ slack_websocket = AsyncSocketModeHandler(app)
 
 @api.on_event("startup")
 async def demo_startup():
-    print("Starting Rbacker ...")
     logging.basicConfig(level=logging.INFO)
 
     import_module("rbacker.app_handlers")
