@@ -17,4 +17,4 @@ WORKER_CLASS=uvicorn.workers.UvicornWorker
 #  --pid rbacker.pid \
 #  rbacker:api
 
-uvicorn rbacker:api --host 0.0.0.0 --port ${SLACK_APP_PORT} --log-level debug --reload
+uvicorn rbacker:api --host 0.0.0.0 --port ${SLACK_APP_PORT} --log-level info

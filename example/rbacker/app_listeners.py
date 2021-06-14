@@ -15,7 +15,6 @@ from slack_sdk.models.blocks import SectionBlock, MarkdownTextObject as MdText
 
 from slack_bolt.async_app import (
     AsyncBoltContext as Context,
-    AsyncBoltRequest as Request,
 )
 from slack_bolt.async_app import AsyncSay as Say
 from slack_bolt.context.ack.async_ack import AsyncAck as Ack
@@ -29,7 +28,7 @@ from .app_data import app
 
 
 @app.event("app_mention")
-async def app_mention(context: Context, say: Say, event: dict):
+async def app_mention(context: Context, say: Say):
     await say(f"You mentioned me <@{context.user_id}>?")
 
 
@@ -58,11 +57,12 @@ async def no_your_cant(context: Context, say: Say):
     re.compile("bounce port", re.I),
     middleware=[
         AsyncSlackScimRBAC(
-            app_name=app.name, groups={"ChatOps-foo"}, error_response=no_your_cant
+            app_name=app.name, groups={"ChatOps-bozo"},
+            error_response=no_your_cant
         )
     ],
 )
-async def app_bounce_port(request: Request, context: Context, say: Say):
+async def app_bounce_port(context: Context, say: Say):
     await say(f"bouncing port for you <@{context.user_id}> ... standby")
 
 
@@ -89,7 +89,7 @@ async def modal_no_you_cant(client: AsyncWebClient, body, context: Context):
     middleware=[
         AsyncSlackScimRBAC(
             app_name=app.name,
-            groups={"ChatOps-Netinfra"},
+            groups={"ChatOps-bozo"},
             error_response=modal_no_you_cant,
         )
     ],

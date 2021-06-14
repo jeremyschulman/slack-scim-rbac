@@ -31,7 +31,7 @@ class AsyncSlackScimRBAC(AsyncMiddleware):
         groups: Set[str],
         error_response: Optional[Callable[..., Awaitable[Any]]] = None,
     ):
-        if not inspect.iscoroutinefunction(error_response):
+        if error_response and not inspect.iscoroutinefunction(error_response):
             raise ValueError("error_response must be an async function")
 
         self.app_name = app_name
