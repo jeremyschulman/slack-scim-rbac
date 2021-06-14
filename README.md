@@ -82,9 +82,15 @@ overriding the `error_response` method.
 
 By default the validate process checks the Slack User groups (name) membership
 in any of the required group names.  You can override this behavior (for
-example if you have a default "admin" group) by sub-classing
-`AsyncSlackScimRBAC` and overriding the `is_member` method.
+example if you have a default "admin" group that you want to always allow but
+not require in each listener declaration) by sub-classing `AsyncSlackScimRBAC`
+and overriding the `is_member` method.
 
+# Limitations
+
+This `slack-scim-rbac` repository implements middleware for asyncio mode only.
+A sync implementation should be straightforward, but has not been done since it
+is not what I needed.  If you do, please open an issue (or a PR).  Thanks!
 
 # Resources
 
